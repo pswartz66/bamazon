@@ -23,7 +23,40 @@ connection.connect(function(err) {
 
     console.log("connected as id " + connection.threadId + "\n");
 
-    connection.end();
+    testFunc();
+
+    // connection.end();
 
 });
 
+
+function testFunc() {
+
+    inquirer.prompt([
+        {
+            type: 'input',
+            name: 'userInput',
+            message: 'select any bottle'
+        }
+    ]).then(function(response){
+
+        // var search = response.userInput;
+
+        connection.query('SELECT * FROM bamazonDB.productsmain WHERE shelf_price > 2000',
+        
+        function(err, response){
+
+            if (err) throw err;
+
+            console.log(response)
+
+        })
+        
+    }).catch(function(err){
+
+        if (err) throw err;
+
+    }
+
+
+)};
