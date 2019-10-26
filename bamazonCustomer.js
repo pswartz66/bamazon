@@ -38,7 +38,7 @@ function buyProduct() {
         {
             type: 'list',
             name: 'userInput',
-            message: 'Welcome to bamazonLiquor, What are you looking to buy today?',
+            message: 'Welcome to bamazonBeverage, What are you looking to buy today?',
             choices: [
                 'Bottle',
                 'Case'
@@ -127,6 +127,19 @@ function bottleQuery() {
     ]).then(function(response) {
 
         var bottleQuery = response.userInput;
+        
+        connection.query('SELECT * FROM bamazonDB.productsmain' +
+        'WHERE shelf_price BETWEEN ? and ? ORDER BY rand() LIMIT 10;', {
+
+            shelf_price: num1,
+            shelf_price: num2
+
+        }).then(function(err, response){
+
+
+
+        });
+
         
 
 
