@@ -1,8 +1,6 @@
 
 require('dotenv').config();
 
-var betweenFunc = require('./betweenFile.js');
-
 var myKeys = require('./keys.js');
 var mysql = require('mysql');
 var inquirer = require('inquirer');
@@ -122,41 +120,65 @@ function bottleQuery() {
             choices: [
                 ' $1 to $10',
                 ' $11 to $20',
-                ' $20 to $50',
-                ' $50 to $100',
+                ' $21 to $50',
+                ' $51 to $100',
                 ' $100+'
             ]
         }
     ]).then(function (response) {
 
+        var matrix = {
+            one_ten: [1, 10],
+            eleven_twenty: [11, 20],
+            twentyone_fifty: [21, 50],
+            fiftyone_hundred: [51, 100],
+            hundred_plus: [101],
+        };
+        
         var bottleQuery = response.userInput;
 
-        betweenFunc.betweenNumber(bottleQuery);
+        switch(bottleQuery) {
+            case ' $1 to $10':
+                var num1 = matrix.one_ten[0];
+                var num2 = matrix.one_ten[1];
+                bottleQueryFunc();
+            break;
+            case ' $11 to $20':
+                var num1 = matrix.eleven_twenty[0];
+                var num2 = matrix.eleven_twenty[1];
+                bottleQueryFunc();
+            break;
+            case ' $21 to $50':
+                var num1 = matrix.twentyone_fifty[0];
+                var num2 = matrix.twentyone_fifty[1];
+                bottleQueryFunc();
+            break;
+            case ' $51 to $100':
+                var num1 = matrix.fiftyone_hundred[0];
+                var num2 = matrix.fiftyone_hundred[1];
+                bottleQueryFunc();
+            break;
+            case ' $100+':
+                var num1 = matrix.hundred_plus[0];
+                bottleQueryTwoFunc();  
+            break;
+        }
 
-        if (bottleQuery !== ' $100+') {
 
-            connection.query('SELECT * FROM bamazonDB.productsmain' +
-                'WHERE shelf_price BETWEEN ? and ? ORDER BY rand() LIMIT 10', {
-
-                shelf_price: betweenFunc.Num1,
-                shelf_price: betweenFunc.Num2
-
-            }, function (err, response) {
-
+        function bottleQueryFunc() {
+            var query = 'SELECT * FROM bamazonDB.productsmain' +
+            ' WHERE shelf_price BETWEEN ? and ? ORDER BY rand() LIMIT 10';
+            connection.query(query, [num1, num2], function (err, response) {
                     if (err) throw err;
-
                     console.log(response);
     
             });
+        }
 
-        } else {
-
-            connection.query('SELECT * FROM bamazonDB.productsmain' +
-                'WHERE shelf_price > ? ORDER BY rand() LIMIT 10', {
-
-                shelf_price: betweenFile.num1
-
-            }, function (err, response) {
+        function bottleQueryTwoFunc() {
+            var query = 'SELECT * FROM bamazonDB.productsmain' +
+            'WHERE shelf_price > ? ORDER BY rand() LIMIT 10';
+            connection.query(query, {shelf_price: num1}, function (err, response) {
 
                 if (err) throw err;
 
@@ -164,9 +186,7 @@ function bottleQuery() {
 
             });
 
-
         }
-
 
 
 
@@ -175,5 +195,5 @@ function bottleQuery() {
         if (err) throw err;
 
 
-    })
+    });
 }

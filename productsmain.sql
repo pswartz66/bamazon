@@ -1,4 +1,4 @@
--- SELECT * FROM bamazonDB.productsmain WHERE shelf_price BETWEEN 1 and 10 ORDER BY rand() LIMIT 10;
+SELECT * FROM bamazonDB.productsmain WHERE shelf_price BETWEEN 1 and 10 ORDER BY rand() LIMIT 10;
 
 
 -- SELECT * FROM bamazonDB.productsmain WHERE item_description LIKE '%JIM BEAM%';
