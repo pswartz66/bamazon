@@ -23,34 +23,47 @@ connection.connect(function(err) {
 
     console.log("connected as id " + connection.threadId + "\n");
 
-    testFunc();
+
+    buyProduct();
 
     // connection.end();
 
 });
 
 
-function testFunc() {
+
+function buyProduct() {
 
     inquirer.prompt([
         {
-            type: 'input',
+            type: 'list',
             name: 'userInput',
-            message: 'select any bottle'
+            message: 'Welcome to bamazonLiquor, What are you looking to buy today?',
+            choices: [
+                'Bottle',
+                'Case'
+            ]
         }
     ]).then(function(response){
 
-        // var search = response.userInput;
+        var introGreeting = response.userInput;
 
-        connection.query('SELECT * FROM bamazonDB.productsmain WHERE shelf_price > 2000',
+        displaySampleProducts();
+
+        switch (introGreeting) {
+            case 'Bottle':
+
+            bottleQuery();
+
+            break;
+
+            case 'Case':
+
+            break;
+
+        }
+
         
-        function(err, response){
-
-            if (err) throw err;
-
-            console.log(response)
-
-        })
         
     }).catch(function(err){
 
@@ -60,3 +73,68 @@ function testFunc() {
 
 
 )};
+
+function displaySampleProducts(){
+
+    connection.query('SELECT item_no, item_description,'+
+    'proof, shelf_price, case_cost' +
+    ' FROM '+
+        'bamazonDB.productsmain ORDER BY item_no LIMIT 10',
+        
+    function(err, response){
+
+        if (err) throw err;
+
+        // console.log(response);
+
+        console.log('\n');
+        console.log('---------------------------------------');
+        console.log('Below is a sample list of our inventory');
+        console.log('---------------------------------------');
+
+        for (var i = 0; i < response.length; i++) {
+
+            console.log(response[i].item_no + ' || ' + response[i].item_description + 
+            ' || ' + response[i].proof + ' || ' + response[i].shelf_price + ' || ' + 
+            response[i].case_cost
+            );
+
+        }
+
+        console.log('\n');
+
+
+    })
+
+}
+
+
+function bottleQuery() {
+
+    inquirer.prompt([
+        {
+            type: 'list',
+            name: 'userInput',
+            message: 'Please select a price range',
+            choices: [
+                ' $1 to $10',
+                ' $11 to $20',
+                ' $20 to $50',
+                ' $50 to $100',
+                ' $100+'
+            ]
+        }
+    ]).then(function(response) {
+
+        var bottleQuery = response.userInput;
+        
+
+
+
+    }).catch(function(err){
+
+        if (err) throw err;
+        
+
+    })
+}
