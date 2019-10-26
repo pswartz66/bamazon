@@ -22,7 +22,7 @@ function betweenNumber() {
 
     if (choiceArrSized.length === 1) {
         var num1 = parseInt(choiceArrSized[0]);
-        console.log(num1);
+        return num1;
     } else {
         var num1 = parseInt(choiceArrSized[0]);
         var num2 = parseInt(choiceArrSized[1]);
