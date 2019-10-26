@@ -1,6 +1,8 @@
 
 require('dotenv').config();
 
+var betweenFile = require('./betweenFile');
+
 var myKeys = require('./keys.js');
 var mysql = require('mysql');
 var inquirer = require('inquirer');
@@ -15,7 +17,7 @@ var connection = mysql.createConnection({
 });
 
 
-connection.connect(function(err) {
+connection.connect(function (err) {
 
     if (err) {
         throw err;
@@ -44,7 +46,7 @@ function buyProduct() {
                 'Case'
             ]
         }
-    ]).then(function(response){
+    ]).then(function (response) {
 
         var introGreeting = response.userInput;
 
@@ -53,58 +55,59 @@ function buyProduct() {
         switch (introGreeting) {
             case 'Bottle':
 
-            bottleQuery();
+                bottleQuery();
 
-            break;
+                break;
 
             case 'Case':
 
-            break;
+                break;
 
         }
 
-        
-        
-    }).catch(function(err){
+
+
+    }).catch(function (err) {
 
         if (err) throw err;
 
     }
 
 
-)};
+    )
+};
 
-function displaySampleProducts(){
+function displaySampleProducts() {
 
-    connection.query('SELECT item_no, item_description,'+
-    'proof, shelf_price, case_cost' +
-    ' FROM '+
+    connection.query('SELECT item_no, item_description,' +
+        'proof, shelf_price, case_cost' +
+        ' FROM ' +
         'bamazonDB.productsmain ORDER BY item_no LIMIT 10',
-        
-    function(err, response){
 
-        if (err) throw err;
+        function (err, response) {
 
-        // console.log(response);
+            if (err) throw err;
 
-        console.log('\n');
-        console.log('---------------------------------------');
-        console.log('Below is a sample list of our inventory');
-        console.log('---------------------------------------');
+            // console.log(response);
 
-        for (var i = 0; i < response.length; i++) {
+            console.log('\n');
+            console.log('---------------------------------------');
+            console.log('Below is a sample list of our inventory');
+            console.log('---------------------------------------');
 
-            console.log(response[i].item_no + ' || ' + response[i].item_description + 
-            ' || ' + response[i].proof + ' || ' + response[i].shelf_price + ' || ' + 
-            response[i].case_cost
-            );
+            for (var i = 0; i < response.length; i++) {
 
-        }
+                console.log(response[i].item_no + ' || ' + response[i].item_description +
+                    ' || ' + response[i].proof + ' || ' + response[i].shelf_price + ' || ' +
+                    response[i].case_cost
+                );
 
-        console.log('\n');
+            }
+
+            console.log('\n');
 
 
-    })
+        })
 
 }
 
@@ -124,30 +127,51 @@ function bottleQuery() {
                 ' $100+'
             ]
         }
-    ]).then(function(response) {
+    ]).then(function (response) {
 
         var bottleQuery = response.userInput;
-        
-        connection.query('SELECT * FROM bamazonDB.productsmain' +
-        'WHERE shelf_price BETWEEN ? and ? ORDER BY rand() LIMIT 10;', {
 
-            shelf_price: num1,
-            shelf_price: num2
+        if (bottleQuery !== ' $100+') {
 
-        }).then(function(err, response){
+            connection.query('SELECT * FROM bamazonDB.productsmain' +
+                'WHERE shelf_price BETWEEN ? and ? ORDER BY rand() LIMIT 10', {
+
+                shelf_price: betweenFile.num1,
+                shelf_price: betweenFile.num2
+
+            }, function (err, response) {
+
+                    if (err) throw err;
+
+                    console.log(response);
+    
+            });
+
+        } else {
+
+            connection.query('SELECT * FROM bamazonDB.productsmain' +
+                'WHERE shelf_price > ? ORDER BY rand() LIMIT 10', {
+
+                shelf_price: betweenFile.num1
+
+            }, function (err, response) {
+
+                if (err) throw err;
+
+                console.log(response);
+
+            });
+
+
+        }
 
 
 
-        });
 
-        
-
-
-
-    }).catch(function(err){
+    }).catch(function (err) {
 
         if (err) throw err;
-        
+
 
     })
 }
