@@ -23,7 +23,6 @@ connection.connect(function (err) {
 
     console.log("connected as id " + connection.threadId + "\n");
 
-
     buyProduct();
 
     // connection.end();
@@ -34,6 +33,7 @@ connection.connect(function (err) {
 
 function buyProduct() {
 
+
     inquirer.prompt([
         {
             type: 'list',
@@ -43,16 +43,19 @@ function buyProduct() {
                 'Bottle',
                 'Case'
             ]
+            
         }
+        
     ]).then(function (response) {
 
         var introGreeting = response.userInput;
 
-        displaySampleProducts();
-
         switch (introGreeting) {
             case 'Bottle':
 
+                displaySampleProducts();
+                
+                // call Bottle Query function
                 bottleQuery();
 
                 break;
@@ -62,7 +65,6 @@ function buyProduct() {
                 break;
 
         }
-
 
 
     }).catch(function (err) {
@@ -76,17 +78,11 @@ function buyProduct() {
 };
 
 function displaySampleProducts() {
-
-    connection.query('SELECT item_no, item_description,' +
-        'proof, shelf_price, case_cost' +
-        ' FROM ' +
-        'bamazonDB.productsmain ORDER BY item_no LIMIT 10',
-
-        function (err, response) {
+    var query = 'SELECT item_no, item_description, proof, shelf_price, case_cost '+
+    'FROM bamazonDB.productsmain ORDER BY item_no LIMIT 10'
+    connection.query(query, function (err, response) {
 
             if (err) throw err;
-
-            // console.log(response);
 
             console.log('\n');
             console.log('---------------------------------------');
@@ -101,12 +97,8 @@ function displaySampleProducts() {
                 );
 
             }
-
             console.log('\n');
-
-
         })
-
 }
 
 
@@ -134,7 +126,7 @@ function bottleQuery() {
             fiftyone_hundred: [51, 100],
             hundred_plus: [101],
         };
-        
+
         var bottleQuery = response.userInput;
 
         switch(bottleQuery) {
@@ -177,8 +169,8 @@ function bottleQuery() {
 
         function bottleQueryTwoFunc() {
             var query = 'SELECT * FROM bamazonDB.productsmain' +
-            'WHERE shelf_price > ? ORDER BY rand() LIMIT 10';
-            connection.query(query, {shelf_price: num1}, function (err, response) {
+            ' WHERE shelf_price >= ? ORDER BY rand() LIMIT 10';
+            connection.query(query, num1, function (err, response) {
 
                 if (err) throw err;
 
