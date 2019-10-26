@@ -3,11 +3,16 @@
 // to be used in the sql query search between
 
 // let choice = ' $100+';
-// let choice = ' $50 to $100';
 
-function betweenNumber() {
-    var choiceArr = (choice.split('$').join(' ').split('to').join('').split(' '));
-    console.log(choiceArr);
+// var choiceArr = testStr.split('$').join(' ').split('to').join('').split(' ');
+
+
+
+function betweenNumber(choice) {
+    
+    var choiceArr = [];
+    
+    var choiceArr = choice.split('$').join(' ').split('to').join('').split(' ');
 
     var choiceArrSized = [];
 
@@ -26,16 +31,17 @@ function betweenNumber() {
     } else {
         var num1 = parseInt(choiceArrSized[0]);
         var num2 = parseInt(choiceArrSized[1]);
-        console.log(num1);
-        console.log(num2);
+        return num1, num2;
     }
 
 }
 
-module.exports = {
-    num1: num1,
-    num2: num2
-}
+var testStr = ' $50 to $100';
+betweenNumber(testStr);
+
+
+
+module.exports.betweenNumber = betweenNumber;
 
 
 

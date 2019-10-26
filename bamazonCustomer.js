@@ -1,7 +1,7 @@
 
 require('dotenv').config();
 
-var betweenFile = require('./betweenFile');
+var betweenFunc = require('./betweenFile.js');
 
 var myKeys = require('./keys.js');
 var mysql = require('mysql');
@@ -131,13 +131,15 @@ function bottleQuery() {
 
         var bottleQuery = response.userInput;
 
+        betweenFunc.betweenNumber(bottleQuery);
+
         if (bottleQuery !== ' $100+') {
 
             connection.query('SELECT * FROM bamazonDB.productsmain' +
                 'WHERE shelf_price BETWEEN ? and ? ORDER BY rand() LIMIT 10', {
 
-                shelf_price: betweenFile.num1,
-                shelf_price: betweenFile.num2
+                shelf_price: betweenFunc.Num1,
+                shelf_price: betweenFunc.Num2
 
             }, function (err, response) {
 
