@@ -63,18 +63,13 @@ function buyProduct() {
             case 'Case':
 
                 break;
-
         }
-
 
     }).catch(function (err) {
 
         if (err) throw err;
 
-    }
-
-
-    )
+    });
 };
 
 function displaySampleProducts() {
@@ -100,7 +95,6 @@ function displaySampleProducts() {
             console.log('\n');
         })
 }
-
 
 function bottleQuery() {
 
@@ -173,19 +167,18 @@ function bottleQuery() {
             connection.query(query, num1, function (err, response) {
 
                 if (err) throw err;
-
                 console.log(response);
 
             });
 
         }
 
-
-
     }).catch(function (err) {
 
         if (err) throw err;
 
-
     });
 }
+
+
+// create a function called caseQuery here

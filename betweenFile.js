@@ -6,9 +6,75 @@
 
 // var choiceArr = testStr.split('$').join(' ').split('to').join('').split(' ');
 
+require('dotenv').config();
+var myKeys = require('./keys.js');
+var mysql = require('mysql');
+
+var connection = mysql.createConnection({
+    host: "localhost",
+    port: 3306,
+    user: "root",
+    password: myKeys.ID.SECRET_ID,
+    database: "bamazonDB"
+});
+
+connection.connect(function (err) {
+
+    if (err) {
+        throw err;
+    }
+
+    console.log("connected as id " + connection.threadId + "\n");
+
+    testQuery();
+
+    // connection.end();
+
+});
+
+function testQuery(){
+
+    var headers = 'SELECT COLUMN_NAME FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_SCHEMA = `bamazonDB` AND TABLE_NAME = `productsmain`';
+    connection.query(headers, function(err, response){
+        
+        if (err) throw err;
+
+        console.log(response);
+
+        for (var i = 0; i < response.length; i++) {
+
+            console.log(response[i].item_no + ' || ' + response[i].item_description +
+                ' || ' + response[i].proof + ' || ' + response[i].shelf_price + ' || ' +
+                response[i].case_cost
+            );
+
+        }
+    
+    });
+    
+
+    var query = 'SELECT * FROM bamazonDB.productsmain LIMIT 10'+
+    ' DESCRIBE bamazonDB.productsmain';
+
+    connection.query(query, function(err, response){
+        
+        if (err) throw err;
+
+        for (var i = 0; i < response.length; i++) {
+
+            console.log(response[i].item_no + ' || ' + response[i].item_description +
+                ' || ' + response[i].proof + ' || ' + response[i].shelf_price + ' || ' +
+                response[i].case_cost
+            );
+
+        }
+    
+    });
+    
+}
 
 
-function betweenNumber(choice) {
+/* function betweenNumber(choice) {
     
     var choiceArr = [];
     
@@ -39,9 +105,7 @@ function betweenNumber(choice) {
 var testStr = ' $50 to $100';
 betweenNumber(testStr);
 
-
-
-module.exports.betweenNumber = betweenNumber;
+module.exports.betweenNumber = betweenNumber; */
 
 
 
