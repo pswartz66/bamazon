@@ -181,7 +181,7 @@ function bottleQuery() {
                 console.log('\n');
                 console.log('\n');
 
-                bottle_item_no();
+                purchaseBottle();
 
             });
         }
@@ -213,7 +213,7 @@ function bottleQuery() {
                 console.log('\n');
                 console.log('\n');
 
-                bottle_item_no();
+                purchaseBottle();
 
             });
 
@@ -227,7 +227,7 @@ function bottleQuery() {
 }
 
 
-function bottle_item_no(){
+function purchaseBottle(){
 
     inquirer.prompt([
         {
