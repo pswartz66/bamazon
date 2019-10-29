@@ -24,7 +24,44 @@
 -- AS 'Currency Format' FROM bamazonDB.productsmain;
 
 -- DELETE FROM bamazonDB.productsmain WHERE item_no IS NULL;
+
+
+-- UPDATE bamazonDB.productsmain
+-- SET quantity = quantity - 1
+-- WHERE item_no = 185;
+
 SELECT * FROM bamazonDB.productsmain ORDER BY item_no LIMIT 10;
+
+UPDATE bamazonDB.productsmain
+SET quantity = quantity - 20
+WHERE item_no = 185 and quantity = 20;
+
+
+
+DELIMITER $$
+
+CREATE PROCEDURE checkInventory()
+
+BEGIN
+
+	IF EXISTS (SELECT * FROM bamazonDB.productsmain WHERE item_no = ? AND quantity <= 0) THEN
+    
+		UPDATE bamazonDB.productsmain	
+		SET quantity = quantity + 20
+		WHERE item_no = ? and quantity = 0;
+    
+    END IF;
+ 
+ END$$;
+
+DELIMITER ;
+
+CALL checkInventory();
+ 
+
+
+
+
 
 -- SELECT item_no FROM bamazonDB.productsmain LIMIT 10;
 

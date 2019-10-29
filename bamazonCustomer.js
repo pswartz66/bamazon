@@ -78,7 +78,7 @@ function displaySampleProducts() {
 
         if (err) throw err;
 
-        console.log(response[0]);
+        // console.log(response[0]);
         console.log('\n');
         console.log('---------------------------------------');
         console.log('Below is a sample list of our inventory');
@@ -240,6 +240,9 @@ function purchaseBottle(){
 
         var item_num = response.userInput;
 
+        checkInventory(item_num);
+
+
         // check if there is enough quantity then run 
 
         var query = 'SELECT * FROM bamazonDB.productsmain' +
@@ -251,7 +254,7 @@ function purchaseBottle(){
                 console.log('\n');
                 console.log('------------------------------------------------------------------');
                 console.log('Great choice!! You chose '+response[0].item_description);
-                console.log('You'+"'re total is: "+' '+response[0].shelf_price);
+                console.log('You'+"'re total is: "+' $'+response[0].shelf_price);
                 console.log('------------------------------------------------------------------');
 
                 console.log('Thank you for shopping at bamazonBeverage! We value you'+"'re service ");
@@ -275,9 +278,42 @@ function purchaseBottle(){
 
 
 // create a function for Inventory Check here
+function checkInventory(item_number){
 
+
+    connection.query('CALL checkInventory()', [item_number, item_number], function(err, response){
+
+        if (err) throw err;
+        
+        console.log(item_number + ' has been restocked with 20 bottles');
+        console.log(response[0]);
+
+
+    });
+
+}
 
 
 
 // create a function for math calculation:
 //   - when user buys : decrease the quantity
+
+function subtractInventory(item_number){
+
+    // if checkInventory === 0 then add 20 bottles
+
+    var query = 'UPDATE item_no'+
+                'SET quantity = quantity - 1'+
+                'WHERE item_no = ?';
+
+    connection.query(query, item_number, function(err, response){
+
+        if (err) throw err;
+
+        console.log(response[0]);
+
+
+    });
+    
+
+}
