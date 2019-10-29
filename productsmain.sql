@@ -34,7 +34,7 @@ SELECT * FROM bamazonDB.productsmain ORDER BY item_no LIMIT 10;
 
 UPDATE bamazonDB.productsmain
 SET quantity = quantity - 20
-WHERE item_no = 185 and quantity = 20;
+WHERE item_no = 185 and quantity < 20;
 
 
 
@@ -43,13 +43,13 @@ DELIMITER $$
 CREATE PROCEDURE checkInventory()
 
 BEGIN
-
-	IF EXISTS (SELECT * FROM bamazonDB.productsmain WHERE item_no = ? AND quantity <= 0) THEN
+	
+	IF EXISTS (SELECT * FROM bamazonDB.productsmain WHERE item_no = 185 AND quantity <= 0) THEN
     
 		UPDATE bamazonDB.productsmain	
 		SET quantity = quantity + 20
-		WHERE item_no = ? and quantity = 0;
-    
+		WHERE item_no = 185 AND quantity <= 0;
+        
     END IF;
  
  END$$;
@@ -61,8 +61,3 @@ CALL checkInventory();
 
 
 
-
-
--- SELECT item_no FROM bamazonDB.productsmain LIMIT 10;
-
--- SELECT * FROM bamazonDB.productsmain WHERE shelf_price > 2000;
