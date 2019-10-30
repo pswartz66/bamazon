@@ -4,6 +4,7 @@ require('dotenv').config();
 var myKeys = require('./keys.js');
 var mysql = require('mysql');
 var inquirer = require('inquirer');
+var Table = require('cli-table');
 
 
 var connection = mysql.createConnection({
@@ -74,7 +75,7 @@ function buyProduct() {
 
 function displaySampleProducts() {
     var query = 'SELECT * FROM bamazonDB.productsmain ORDER BY item_no LIMIT 10'
-    connection.query(query, function (err, response) {
+    connection.query(query, function (err, res) {
 
         if (err) throw err;
 
@@ -84,14 +85,30 @@ function displaySampleProducts() {
         console.log('Below is a sample list of our inventory');
         console.log('---------------------------------------');
 
-        for (var i = 0; i < response.length; i++) {
+
+        var table = new Table({
+            head: ["ITEM_NO", "ITEM_DESC", "PROOF", "PRICE", "CASE_COST", "QUANTITY"],
+            colWidths: [10, 30, 10, 10, 12, 10],
+            colAligns: ["center", "left"],
+            style: {
+                // head: ["aqua"],
+                compact: true
+            }
+        });
+
+        for (var i = 0; i < res.length; i++) {
+            table.push([res[i].item_no, res[i].item_description, res[i].proof, res[i].shelf_price, res[i].case_cost, res[i].quantity]);
+        }
+        console.log(table.toString())
+
+        /* for (var i = 0; i < response.length; i++) {
 
             console.log(response[i].item_no + ' || ' + response[i].item_description +
                 ' || ' + response[i].proof + ' || ' + response[i].shelf_price + ' || ' +
                 response[i].case_cost
             );
 
-        }
+        } */
         console.log('\n');
         console.log('Press any arrow on the keyboard to continue...');
         console.log('\n');
@@ -158,7 +175,7 @@ function bottleQuery() {
         function bottleQueryFunc() {
             var query = 'SELECT * FROM bamazonDB.productsmain' +
                 ' WHERE shelf_price BETWEEN ? and ? ORDER BY rand() LIMIT 10';
-            connection.query(query, [num1, num2], function (err, response) {
+            connection.query(query, [num1, num2], function (err, res) {
                 if (err) throw err;
                 // console.log(response);
 
@@ -167,15 +184,23 @@ function bottleQuery() {
                 console.log('Based on your price range of ' + '$' + num1 + ' to ' + '$' + num2 + ' we have the following selection:');
                 console.log('-----------------------------------------------------------------------');
 
-                for (var i = 0; i < response.length; i++) {
 
-                    console.log(response[i].item_no + ' || ' +
-                        response[i].item_description + ' || ' + response[i].proof +
-                        ' || ' + response[i].shelf_price + ' || ' +
-                        response[i].case_cost
-                    );
 
+                var table = new Table({
+                    head: ["ITEM_NO", "ITEM_DESC", "PROOF", "PRICE", "CASE_COST", "QUANTITY"],
+                    colWidths: [10, 30, 10, 10, 12, 10],
+                    colAligns: ["center", "left"],
+                    style: {
+                        // head: ["aqua"],
+                        compact: true
+                    }
+                });
+
+                for (var i = 0; i < res.length; i++) {
+                    table.push([res[i].item_no, res[i].item_description, res[i].proof, res[i].shelf_price, res[i].case_cost, res[i].quantity]);
                 }
+                console.log(table.toString())
+
                 console.log('\n');
                 console.log('Press any arrow on the keyboard to continue...');
                 console.log('\n');
@@ -189,7 +214,7 @@ function bottleQuery() {
         function bottleQueryTwoFunc() {
             var query = 'SELECT * FROM bamazonDB.productsmain' +
                 ' WHERE shelf_price >= ? ORDER BY rand() LIMIT 10';
-            connection.query(query, num1, function (err, response) {
+            connection.query(query, num1, function (err, res) {
 
                 if (err) throw err;
                 // console.log(response);
@@ -199,15 +224,22 @@ function bottleQuery() {
                 console.log('Based on your price range of ' + '$100+' + ' we have the following selection:');
                 console.log('-------------------------------------------------------------------');
 
-                for (var i = 0; i < response.length; i++) {
 
-                    console.log(response[i].item_no + ' || ' +
-                        response[i].item_description + ' || ' + response[i].proof +
-                        ' || ' + response[i].shelf_price + ' || ' +
-                        response[i].case_cost
-                    );
+                var table = new Table({
+                    head: ["ITEM_NO", "ITEM_DESC", "PROOF", "PRICE", "CASE_COST", "QUANTITY"],
+                    colWidths: [10, 30, 10, 10, 12, 10],
+                    colAligns: ["center", "left"],
+                    style: {
+                        // head: ["aqua"],
+                        compact: true
+                    }
+                });
 
+                for (var i = 0; i < res.length; i++) {
+                    table.push([res[i].item_no, res[i].item_description, res[i].proof, res[i].shelf_price, res[i].case_cost, res[i].quantity]);
                 }
+                console.log(table.toString())
+
                 console.log('\n');
                 console.log('Press any arrow on the keyboard to continue...');
                 console.log('\n');
@@ -240,7 +272,7 @@ function purchaseBottle() {
 
         var item_num = response.userInput;
 
-        
+
         updateInventory(item_num);
 
 
@@ -260,23 +292,17 @@ function purchaseBottle() {
             console.log('\n');
             console.log('\n');
 
-            // update the quantity in the sql table
+            connection.end();
+
 
         });
-
-
-        // connection.end();
 
 
     }).catch(function (err) {
         throw err;
     })
 
-    
-
-
 }
-
 
 
 // create a function for math calculation:
@@ -324,7 +350,6 @@ function updateInventory(item_number) {
     });
 
 
-
     var queryTwo = 'SELECT * FROM bamazonDB.productsmain' +
         ' WHERE item_no = ?';
 
@@ -335,7 +360,6 @@ function updateInventory(item_number) {
         console.log('item_no: ' + item_number + ' has ' + response[0].quantity + ' bottles left in stock');
 
     });
-
 
 
 }
