@@ -91,24 +91,15 @@ function displaySampleProducts() {
             colWidths: [10, 30, 10, 10, 12, 10],
             colAligns: ["center", "left"],
             style: {
-                // head: ["aqua"],
                 compact: true
             }
         });
 
         for (var i = 0; i < res.length; i++) {
-            table.push([res[i].item_no, res[i].item_description, res[i].proof, res[i].shelf_price, res[i].case_cost, res[i].quantity]);
+            table.push([res[i].item_no, res[i].item_description, res[i].proof, '$' + res[i].shelf_price, '$' + res[i].case_cost, res[i].quantity]);
         }
         console.log(table.toString())
 
-        /* for (var i = 0; i < response.length; i++) {
-
-            console.log(response[i].item_no + ' || ' + response[i].item_description +
-                ' || ' + response[i].proof + ' || ' + response[i].shelf_price + ' || ' +
-                response[i].case_cost
-            );
-
-        } */
         console.log('\n');
         console.log('Press any arrow on the keyboard to continue...');
         console.log('\n');
@@ -185,19 +176,17 @@ function bottleQuery() {
                 console.log('-----------------------------------------------------------------------');
 
 
-
                 var table = new Table({
                     head: ["ITEM_NO", "ITEM_DESC", "PROOF", "PRICE", "CASE_COST", "QUANTITY"],
                     colWidths: [10, 30, 10, 10, 12, 10],
                     colAligns: ["center", "left"],
                     style: {
-                        // head: ["aqua"],
                         compact: true
                     }
                 });
 
                 for (var i = 0; i < res.length; i++) {
-                    table.push([res[i].item_no, res[i].item_description, res[i].proof, res[i].shelf_price, res[i].case_cost, res[i].quantity]);
+                    table.push([res[i].item_no, res[i].item_description, res[i].proof, '$' + res[i].shelf_price, '$' + res[i].case_cost, res[i].quantity]);
                 }
                 console.log(table.toString())
 
@@ -230,13 +219,12 @@ function bottleQuery() {
                     colWidths: [10, 30, 10, 10, 12, 10],
                     colAligns: ["center", "left"],
                     style: {
-                        // head: ["aqua"],
                         compact: true
                     }
                 });
 
                 for (var i = 0; i < res.length; i++) {
-                    table.push([res[i].item_no, res[i].item_description, res[i].proof, res[i].shelf_price, res[i].case_cost, res[i].quantity]);
+                    table.push([res[i].item_no, res[i].item_description, res[i].proof, '$' + res[i].shelf_price, '$' + res[i].case_cost, res[i].quantity]);
                 }
                 console.log(table.toString())
 
@@ -276,34 +264,11 @@ function purchaseBottle() {
         updateInventory(item_num);
 
 
-        var query = 'SELECT * FROM bamazonDB.productsmain' +
-            ' WHERE item_no = ?';
-        connection.query(query, item_num, function (err, response) {
-
-            if (err) throw err;
-
-            console.log('\n');
-            console.log('------------------------------------------------------------------');
-            console.log('Great choice!! You chose ' + response[0].item_description);
-            console.log('You' + "'re total is: " + ' $' + response[0].shelf_price);
-            console.log('------------------------------------------------------------------');
-
-            console.log('Thank you for shopping at bamazonBeverage! We value you' + "'re service ");
-            console.log('\n');
-            console.log('\n');
-
-            connection.end();
-
-
-        });
-
-
     }).catch(function (err) {
         throw err;
     })
 
 }
-
 
 // create a function for math calculation:
 //   - when user buys : decrease the quantity or restock if <= 0
@@ -320,18 +285,9 @@ function updateInventory(item_number) {
 
         if (response[0].quantity <= 0) {
 
-            var queryAddBottle = 'UPDATE bamazonDB.productsmain' +
-                ' SET quantity = 20' +
-                ' WHERE item_no = ?';
+            
+                insufficientQuantity(item_number);
 
-            connection.query(queryAddBottle, item_number, function (err, response) {
-
-                if (err) throw err;
-
-                console.log(item_number + ' has been restocked with 20 bottles');
-
-
-            });
 
         } else {
             var query = 'UPDATE bamazonDB.productsmain' +
@@ -342,28 +298,103 @@ function updateInventory(item_number) {
 
                 if (err) throw err;
 
+                closeGreeting(item_number);
+
 
             });
+
+
         }
 
+        var queryTwo = 'SELECT * FROM bamazonDB.productsmain' +
+            ' WHERE item_no = ?';
+
+        connection.query(queryTwo, item_number, function (err, response) {
+
+            if (err) throw err;
+
+            console.log('item_no: ' + item_number + ' has ' + response[0].quantity + ' bottles left in stock');
+
+        });
+
 
     });
 
 
-    var queryTwo = 'SELECT * FROM bamazonDB.productsmain' +
-        ' WHERE item_no = ?';
 
-    connection.query(queryTwo, item_number, function (err, response) {
-
-        if (err) throw err;
-
-        console.log('item_no: ' + item_number + ' has ' + response[0].quantity + ' bottles left in stock');
-
-    });
 
 
 }
 
+function insufficientQuantity(item_number) {
+
+    console.log('INSUFFICIENT QUANTITY...');
+
+    inquirer.prompt([
+        {
+            type: 'input',
+            name: 'userInput',
+            message: 'Would you like to select another option? (y/n)'
+
+        }
+    ]).then(function (response) {
+
+        var yesNo = response.userInput;
+
+        if (yesNo === 'y') {
+
+            // re order 20 units
+            var queryAddBottle = 'UPDATE bamazonDB.productsmain' +
+                ' SET quantity = 20' +
+                ' WHERE item_no = ?';
+
+            connection.query(queryAddBottle, item_number, function (err, response) {
+
+                if (err) throw err;
+            });
+
+            bottleQuery();
+
+            // endFunc();
+
+        } else {
+
+            console.log('Hope to see you again soon!')
+            // endFunc();
+
+        }
+
+    });
+}
+
+function closeGreeting(item_number) {
+
+    var query = 'SELECT * FROM bamazonDB.productsmain' +
+        ' WHERE item_no = ?';
+    connection.query(query, item_number, function (err, response) {
+
+        if (err) throw err;
+
+        console.log('\n');
+        console.log('------------------------------------------------------------------');
+        console.log('Great choice!! You chose ' + response[0].item_description);
+        console.log('You' + "'re total is: $" + response[0].shelf_price);
+        console.log('------------------------------------------------------------------');
+
+        console.log('Thank you for shopping at bamazonBeverage! We value you' + "'re service ");
+        console.log('\n');
+        console.log('\n');
+
+        // endFunc();
+
+    });
+}
+
+function endFunc() {
+
+    connection.end();
+
+}
 
 
 // create a function called caseQuery here
