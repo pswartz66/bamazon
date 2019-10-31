@@ -30,11 +30,11 @@
 -- SET quantity = quantity - 1
 -- WHERE item_no = 185;
 
-SELECT quantity FROM bamazonDB.productsmain WHERE item_no = 185;
+SELECT quantity FROM bamazonDB.productsmain WHERE item_no = 43302;
 
 UPDATE bamazonDB.productsmain
 SET quantity = quantity - 20
-WHERE item_no = 185 and quantity <= 20;
+WHERE item_no = 43302 and quantity <= 20;
 
 
 SELECT * FROM bamazonDB.productsmain WHERE item_no = 185 AND quantity <= 0;

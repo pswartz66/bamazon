@@ -6,7 +6,6 @@ var mysql = require('mysql');
 var inquirer = require('inquirer');
 var Table = require('cli-table');
 
-
 var connection = mysql.createConnection({
     host: "localhost",
     port: 3306,
@@ -14,7 +13,6 @@ var connection = mysql.createConnection({
     password: myKeys.ID.SECRET_ID,
     database: "bamazonDB"
 });
-
 
 connection.connect(function (err) {
 
@@ -30,10 +28,7 @@ connection.connect(function (err) {
 
 });
 
-
-
 function buyProduct() {
-
 
     inquirer.prompt([
         {
@@ -41,8 +36,7 @@ function buyProduct() {
             name: 'userInput',
             message: 'Welcome to bamazonBeverage, What are you looking to buy today?',
             choices: [
-                'Bottle',
-                'Case'
+                'Bottle'
             ]
 
         }
@@ -162,7 +156,6 @@ function bottleQuery() {
                 break;
         }
 
-
         function bottleQueryFunc() {
             var query = 'SELECT * FROM bamazonDB.productsmain' +
                 ' WHERE shelf_price BETWEEN ? and ? ORDER BY rand() LIMIT 10';
@@ -174,7 +167,6 @@ function bottleQuery() {
                 console.log('-----------------------------------------------------------------------');
                 console.log('Based on your price range of ' + '$' + num1 + ' to ' + '$' + num2 + ' we have the following selection:');
                 console.log('-----------------------------------------------------------------------');
-
 
                 var table = new Table({
                     head: ["ITEM_NO", "ITEM_DESC", "PROOF", "PRICE", "CASE_COST", "QUANTITY"],
@@ -246,7 +238,6 @@ function bottleQuery() {
     });
 }
 
-
 function purchaseBottle() {
 
     inquirer.prompt([
@@ -275,7 +266,6 @@ function purchaseBottle() {
 
 function updateInventory(item_number) {
 
-
     var checkQuery = 'SELECT * FROM bamazonDB.productsmain' +
         ' WHERE item_no = ?';
 
@@ -284,10 +274,8 @@ function updateInventory(item_number) {
         if (err) throw err;
 
         if (response[0].quantity <= 0) {
-
             
                 insufficientQuantity(item_number);
-
 
         } else {
             var query = 'UPDATE bamazonDB.productsmain' +
@@ -303,7 +291,6 @@ function updateInventory(item_number) {
 
             });
 
-
         }
 
         var queryTwo = 'SELECT * FROM bamazonDB.productsmain' +
@@ -317,12 +304,7 @@ function updateInventory(item_number) {
 
         });
 
-
     });
-
-
-
-
 
 }
 
@@ -355,12 +337,12 @@ function insufficientQuantity(item_number) {
 
             bottleQuery();
 
-            // endFunc();
+            
 
         } else {
 
             console.log('Hope to see you again soon!')
-            // endFunc();
+            endFunc();
 
         }
 
@@ -385,7 +367,9 @@ function closeGreeting(item_number) {
         console.log('\n');
         console.log('\n');
 
-        // endFunc();
+        if (response[0].item_description) {
+            endFunc();
+        }
 
     });
 }
@@ -395,6 +379,3 @@ function endFunc() {
     connection.end();
 
 }
-
-
-// create a function called caseQuery here
