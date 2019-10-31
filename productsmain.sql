@@ -1,4 +1,8 @@
 
+-- All queries and test procedures below were for testing purposes
+-- Make sure you have mysql installed to use this application
+
+
 -- ALTER TABLE bamazonDB.productsmain
 	-- ADD
     -- quantity DECIMAL(10,0) NOT NULL;

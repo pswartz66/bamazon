@@ -247,9 +247,7 @@ function purchaseBottle() {
 
         var item_num = response.userInput;
 
-
         updateInventory(item_num);
-
 
     }).catch(function (err) {
         throw err;
@@ -329,8 +327,6 @@ function insufficientQuantity(item_number) {
             });
 
             bottleQuery();
-
-            
 
         } else {
 
