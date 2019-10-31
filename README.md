@@ -20,7 +20,7 @@
   <li>this command will return the following output</li>
   <li>beverage data will display in a table with the following column headers</li>
   <ol>
-   <li><strong>item_no:</strong> a unique identifier for each individual bottle</li> 
+   <strong><li>item_no:</strong> a unique identifier for each individual bottle</li> 
    <li><strong>item_decription:</strong> a description for the bottle i.e. captain morgan</li>
    <li><strong>proof:</strong> an amount to display the level of alcohol in the bottle</li>
    <li><strong>shelf_price:</strong> the price per bottle</li>
