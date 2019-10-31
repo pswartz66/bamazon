@@ -24,8 +24,6 @@ connection.connect(function (err) {
 
     buyProduct();
 
-    // connection.end();
-
 });
 
 function buyProduct() {
@@ -48,6 +46,7 @@ function buyProduct() {
         switch (introGreeting) {
             case 'Bottle':
 
+                // display a list of sample products
                 displaySampleProducts();
 
                 // call Bottle Query function
@@ -73,7 +72,6 @@ function displaySampleProducts() {
 
         if (err) throw err;
 
-        // console.log(response[0]);
         console.log('\n');
         console.log('---------------------------------------');
         console.log('Below is a sample list of our inventory');
@@ -161,7 +159,6 @@ function bottleQuery() {
                 ' WHERE shelf_price BETWEEN ? and ? ORDER BY rand() LIMIT 10';
             connection.query(query, [num1, num2], function (err, res) {
                 if (err) throw err;
-                // console.log(response);
 
                 console.log('\n');
                 console.log('-----------------------------------------------------------------------');
@@ -198,7 +195,6 @@ function bottleQuery() {
             connection.query(query, num1, function (err, res) {
 
                 if (err) throw err;
-                // console.log(response);
 
                 console.log('\n');
                 console.log('-------------------------------------------------------------------');
@@ -260,9 +256,6 @@ function purchaseBottle() {
     })
 
 }
-
-// create a function for math calculation:
-//   - when user buys : decrease the quantity or restock if <= 0
 
 function updateInventory(item_number) {
 
