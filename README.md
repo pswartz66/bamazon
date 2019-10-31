@@ -17,7 +17,16 @@
 <h3>Example use case</h3>
 <ol>
   <li>in your terminal run: node bamazonCustomer.js</li>
-  <ul>this command will return the following prompt</ul>
+  <li>this command will return the following output</li>
+  <li>beverage data will display in a table with the following column headers</li>
+  <ol>
+   <li>item_no: a unique identifier for each individual bottle</li> 
+   <li>item_decription: a description for the bottle i.e. captain morgan</li>
+   <li>proof: an amount to display the level of alcohol in the bottle</li>
+   <li>shelf_price: the price per bottle</li>
+   <li>case_cost: the price per case</li>
+   <li>quantity: the number of bottles left in stock</li>
+  </ol>
   <br>
   <img src="images/img1.png">
   
