@@ -34,8 +34,8 @@
   <br>
   <br>
   
-  <li>node liri.js spotify-this-song <song name here></li>
-  <ul>Output: Artist(s) name, Song name, Preview link of the song from Spotify, Album the song is on</ul>
+  <li>Using the arrow keys to move up and down, hover over a price range that is reasonable to you</li>
+  <ul>This will display a second table with a variety of options within your price range selection</ul>
   <br>
   
   <img src="images/img2.png">
