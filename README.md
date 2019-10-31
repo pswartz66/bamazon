@@ -11,15 +11,13 @@
   <li>git clone this repo</li>
   <li>npm install or npm i</li>
  </ol>
-  
-<h2>There are no command line args required other than: node -> filename</h2>
-<p>where filename = bamazonCustomer.js</p>
+ 
 
 
 <h3>Example use case</h3>
 <ol>
-  <li>node bamazonCustomer.js></li>
-  <ul>will return the following prompt</ul>
+  <li>in your terminal run: node bamazonCustomer.js</li>
+  <ul>this command will return the following prompt</ul>
   <br>
   <img src="images/img1.png">
   
