@@ -4,6 +4,8 @@ node_modules
 .DS_Store
 .env
 
+betweenFile.js
+products.csv
 
 
 
