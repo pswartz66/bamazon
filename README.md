@@ -44,8 +44,8 @@
   <br>
   <br>
 
-  <li>node liri.js movie-this <movie name here></li>
-  <ul>Output: Title, Year, IMDB Rating, Rotten Tomatoes Rating, Country, Language, Plot, Actors</ul>
+  <li>Enter in a number from the table above to make a purchase></li>
+  <ul>If there is enough bottles in the store then you will be taken to the below with a farewell message</ul>
   <br>
 
   <img src="images/img3.png">
@@ -53,8 +53,14 @@
   <br>
   <br>
 
-  <li>node liri.js do-what-it-says</li>
-  <ul>Output: will display random text</ul>
+  <li>If there is not enough bottles in the store then you'll be prompted to try again and select a different bottle -> y </li>
+  <li>You will then be taken back to the select price range prompt</li>
+  <li>On the backend the store will make an update to it's inventory so that if you tried again the bottle will have been restocked</li>
+
+  
+  <br>
+  <li>If you do not want to proceed then enter -> n</li>
+  <li>If you do not want to proceed then enter -> n</li>
 
   <br>
   
