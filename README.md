@@ -44,7 +44,7 @@
   <br>
   <br>
 
-  <li>Enter in a number from the table above to make a purchase></li>
+  <li>Enter in a number from the table above to make a purchase</li>
   <ul>If there is enough bottles in the store then you will be taken to the below with a farewell message</ul>
   <br>
 
@@ -59,7 +59,6 @@
 
   
   <br>
-  <li>If you do not want to proceed then enter -> n</li>
   <li>If you do not want to proceed then enter -> n</li>
 
   <br>
