@@ -4,7 +4,7 @@ node_modules
 .DS_Store
 .env
 
-bamazon/betweenFile.js
+betweenFile.js
 products.csv
 
 
