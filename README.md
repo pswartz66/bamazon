@@ -20,12 +20,12 @@
   <li>this command will return the following output</li>
   <li>beverage data will display in a table with the following column headers</li>
   <ol>
-   <li>item_no: a unique identifier for each individual bottle</li> 
-   <li>item_decription: a description for the bottle i.e. captain morgan</li>
-   <li>proof: an amount to display the level of alcohol in the bottle</li>
-   <li>shelf_price: the price per bottle</li>
-   <li>case_cost: the price per case</li>
-   <li>quantity: the number of bottles left in stock</li>
+   <li><strong>item_no:</strong> a unique identifier for each individual bottle</li> 
+   <li><strong>item_decription:</strong> a description for the bottle i.e. captain morgan</li>
+   <li><strong>proof:</strong> an amount to display the level of alcohol in the bottle</li>
+   <li><strong>shelf_price:<strong> the price per bottle</li>
+   <li><strong>case_cost:</strong> the price per case</li>
+   <li><strong>quantity:</strong> the number of bottles left in stock</li>
   </ol>
   <br>
   <img src="images/img1.png">
